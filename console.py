@@ -41,7 +41,7 @@ class HBNBCommand(cmd.Cmd):
         Usage: <class name>.<command>([<id> [<*args> or <**kwargs>]])
         (Brackets denote optional fields in usage example.)
         """
-        _cmd = _cls = _id = parameters = ''  # initialize line elements
+        _cmd = _cls = _id = _parameters = ''  # initialize line elements
 
         # scan for general formating - i.e '.', '(', ')'
         if not ("=" in line):
