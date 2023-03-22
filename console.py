@@ -97,35 +97,14 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        parameters = args.split()
         """ Create an object of any class"""
         if not args:
             print("** class name missing **")
             return
-        elif parameters[0] not in HBNBCommand.classes:
+        elif args not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[parameters[0]]()
-        # create a new dictionary used to update the cerate instance
-        new_dict = {}
-        # loop through the parameter list from second parameter to the last.
-        for parameter in parameters[1:]:
-            key_value = parameter.split("=")
-            key = key_value[0]
-            value = key_value[1]
-            if '"' in value:
-                value = value.replace('"', '\"').replace('_',' ')
-                new_dict[0] = value
-
-            else:
-                try:
-                    if '.' in value:
-                        new_dict[0] = float(value)
-                    else:
-                        new_dict[0] = int(value)
-                except ValueError:
-                    pass        
-        new_instance.__dict__.update(new_dict)
+        new_instance = HBNBCommand.classes[args]()
         storage.save()
         print(new_instance.id)
         storage.save()
