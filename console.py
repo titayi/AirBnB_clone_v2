@@ -106,9 +106,9 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         new_instance = HBNBCommand.classes[parameters[0]]()
-        # create a new dictionary that will be used to update the cerate instance
+        # create a new dictionary used to update the cerate instance
         new_dict = {}
-        # loop through the parameter list from the second parameter to the last.
+        # loop through the parameter list from second parameter to the last.
         for parameter in parameters[1:]:
             key_value = parameter.split("=")
             key = key_value[0]
