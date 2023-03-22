@@ -37,33 +37,26 @@ class HBNBCommand(cmd.Cmd):
             print('(hbnb)')
 
     def precmd(self, line):
-        """Reformat command line for advanced command syntax.
-
-        Usage: <class name>.<command>([<id> [<*args> or <**kwargs>]])
-        (Brackets denote optional fields in usage example.)
+        """ processes user entry fo usage by other commands
+        Usage: create <Class name> <param 1> <param 2> <param 3>...
         """
-        _cmd = _cls = _id = _parameters = ''  # initialize line elements
+        _cmd = _cls = _id = _params = ''  # initialize line elements
 
         # scan for general formating - i.e '.', '(', ')'
-        if not ("=" in line):
+        if not ('=' in line in line):
             return line
 
         try:  # parse line left to right
             pline = line[:]  # parsed line
-            command_line_list = pline.split()
+            lst = pline.split()
+            # isolate <command>
+            _cmd = lst[0]
 
-            # isolate <class name>
-            _cls = command_line_list[1]
+            # isolate <Class name>
+            _cls = lst[1]
 
-            # isolate and validate <command>
-            _cmd = command_line_list[0]
-            if _cmd not in HBNBCommand.dot_cmds:
-                raise Exception
-            
-            # make sure that the command line list contains only the parameters[2:]
-            command_line_list = command_line_list[2:]
-
-            line = ' '.join([_cmd, _cls, command_line_list])
+            lst = lst[2:]
+            line = ' '.join([_cmd, _cls, lst])
 
         except Exception as mess:
             pass
@@ -200,19 +193,19 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
         print_list = []
+        obj = {}
 
         if args:
             args = args.split(' ')[0]  # remove possible trailing args
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 print_list.append(str(v))
-
         print(print_list)
 
     def help_all(self):
@@ -319,6 +312,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
