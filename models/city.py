@@ -5,7 +5,6 @@ from sqlalchemy import Column, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from os import getenv
 
-
 class City(BaseModel, Base):
     """ The city class, contains state ID and name """
     __tablename__ = "cities"
