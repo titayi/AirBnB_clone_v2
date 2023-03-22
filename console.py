@@ -2,6 +2,7 @@
 """ Console Module """
 import cmd
 import sys
+import copy
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -122,8 +123,7 @@ class HBNBCommand(cmd.Cmd):
                 except ValueError:
                     pass
         new_instance.__dict__.update(kv_dict)
-        storage.new(new_instance)
-        storage.save()
+        new_instance.save()
         print(new_instance.id)
 
     def help_create(self):
