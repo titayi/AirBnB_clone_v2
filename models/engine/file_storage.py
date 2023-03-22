@@ -25,7 +25,7 @@ class FileStorage:
         self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
 
     def delete(self, obj=None):
-        """ Deletes an object from from storage dict """
+        """ deletes an object from storage dictionary """
         if (obj):
             key = f"{obj.__class__.__name__}.{obj.id}"
             del FileStorage.__objects[key]
