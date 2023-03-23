@@ -28,21 +28,37 @@ class Place(BaseModel, Base):
     reviews = relationship("Review", backref="place", cascade="all, delete")
     amenities = relationship("Amenity", secondary='place_amenity', viewonly=False, backref="amenities")
 
-    if getenv("HBNB_TYPE_STORAGE") != "db":
+    if getenv("HBNB_TYPE_STORAGE") == "db":
+        reviews = relationship("Review", cascade='all, delete, delete-orphan',
+                               backref="place")
+
+        amenities = relationship("Amenity", secondary=place_amenity,
+                                 viewonly=False,
+                                 back_populates="place_amenities")
+    else:
         @property
         def reviews(self):
-            """Returns the list of Review instances"""
-            return [review for review in self.reviews]
+            """ Returns list of reviews.id """
+            var = models.storage.all()
+            lista = []
+            result = []
+            for key in var:
+                review = key.replace('.', ' ')
+                review = shlex.split(review)
+                if (review[0] == 'Review'):
+                    lista.append(var[key])
+            for elem in lista:
+                if (elem.place_id == self.id):
+                    result.append(elem)
+            return (result)
 
         @property
         def amenities(self):
-            """Returns a list of Amenity instances"""
-            return [amenity for amenity in self.amenities]
+            """ Returns list of amenity ids """
+            return self.amenity_ids
 
         @amenities.setter
-        def amenities(self, obj):
-            """Appends an amenity id to the attribute
-            amenity_id
-            """
-            if type(obj) == Amenity:
+        def amenities(self, obj=None):
+            """ Appends amenity ids to the attribute """
+            if type(obj) is Amenity and obj.id not in self.amenity_ids:
                 self.amenity_ids.append(obj.id)
