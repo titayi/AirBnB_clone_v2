@@ -29,7 +29,8 @@ def c_text(text):
     """
     Returns a string
     """
-    return ("C" + text.replace("_", " "))
+    text = text.replace('_', ' ')
+    return 'C {}'.format(text)
 
 
 if __name__ == "__main__":
