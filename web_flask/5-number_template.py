@@ -36,6 +36,9 @@ def c_text(text):
 @app.route('/python/', defaults={'text': 'is cool'}, strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def python_text(text):
+    """
+    Display Python followed by the value of the text variable
+    """
     text = text.replace('_', ' ')
     return 'Python {}'.format(text)
 
@@ -49,11 +52,10 @@ def number(n):
 
 
 @app.route('/number_template/<int:n>', strict_slashes=False)
-def number_template(n):
-    """
-    Display a HTML page only if n is an integer
-    """
-    return render_template('5-number.html', n=n)
+def number_template(n=None):
+    """Display a HTML page only if n is an integer"""
+    if isinstance(n, int):
+        return render_template("5-number.html", n=n)
 
 
 if __name__ == "__main__":
